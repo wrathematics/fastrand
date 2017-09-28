@@ -1,0 +1,25 @@
+CXX_STD = CXX11
+
+PKG_CPPFLAGS = @FASTRAND_CPPFLAGS@
+PKG_CXXFLAGS = -I. @FASTRAND_CXXFLAGS@
+PKG_LIBS = @FASTRAND_LDFLAGS@
+
+OBJECTS = backend.o fastrand_native.o getseed.o rnorm.o runif.o threads.o
+
+all: $(SHLIB)
+
+BACKEND = @BACKEND@
+ifeq "$(BACKEND)" "CUDA"
+NVCC = @NVCC@
+CUDA_INCS = @CUDA_INCS@
+
+%.o: %.cpp
+	$(NVCC) -DGPU -x cu -c -Xcompiler "-fPIC" $(CUDA_INCS) $< -o $@
+fastrand.so: $(OBJECTS)
+	$(NVCC) --shared $(OBJECTS) -o $@
+else
+$(SHLIB): $(OBJECTS)
+endif
+
+clean:
+	@rm -rf *.o *.so *.dll Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)

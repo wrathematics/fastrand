@@ -1,0 +1,15 @@
+CXX_STD = CXX11
+
+PKG_CPPFLAGS = -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP $(SHLIB_OPENMP_CFLAGS)
+PKG_CXXFLAGS = -I. $(SHLIB_OPENMP_CXXFLAGS)
+PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
+
+OBJECTS = backend.o fastrand_native.o getseed.o rnorm.o runif.o threads.o
+
+all: $(SHLIB)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	@rm -rf *.o *.so *.dll \
+		Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)

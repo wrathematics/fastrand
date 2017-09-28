@@ -1,0 +1,20 @@
+Package: fastrand
+Type: Package
+Title: Fast Random Number Generation
+Version: 0.1-0
+Description: Fast uniform and gaussian (normal) random number generation. The
+    package uses the thrust library, which can be built to support a threaded
+    backend via 'OpenMP' or Intel Thread Building Blocks ('TBB'), as well as a
+    'GPU' backend via 'NVIDIA''s 'CUDA'.  The package is particularly useful for
+    generating very large vectors for testing numerical algorithms.
+License: BSD 2-clause License + file LICENSE
+Copyright: See fastrand/inst/thrust_LICENSE for the files in src/thrust/.
+Depends:
+    R (>= 3.1.0)
+SystemRequirements: C++11. GNU make. If building with CUDA backend, then
+    Nvidia's CUDA toolkit (>= release 5.0) is required.
+ByteCompile: yes
+BugReports: https://github.com/wrathematics/fastrand/issues
+Authors@R: person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics@gmail.com")
+Maintainer: Drew Schmidt <wrathematics@gmail.com>
+RoxygenNote: 6.0.1

@@ -1,0 +1,5 @@
+For portability with tar (long file names), the following folders were reneamed:
+* thrust/system/cuda/detail/cub/block/specializations renamed to thrust/system/cuda/detail/cub/block/spec
+* thrust/system/cuda/detail/cub/blocksweep/specializations renamed to thrust/system/cuda/detail/cub/blocksweep/spec
+
+All source files touching those folders are modified apropriately.
