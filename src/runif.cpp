@@ -37,13 +37,14 @@ extern "C" SEXP R_fast_runif(SEXP n1_, SEXP n2_, SEXP min_, SEXP max_, SEXP seed
   SEXP x;
   const int32_t n1 = INT(n1_);
   const int32_t n2 = INT(n2_);
-  const R_xlen_t n = n1*n1 + n2;
+  const R_xlen_t n = (R_xlen_t)n1*n1 + n2;
   const flouble min = (flouble) REAL(min_)[0];
   const flouble max = (flouble) REAL(max_)[0];
   const unsigned int seed = INTEGER(seed_)[0];
   const int veclen = STRIDE < n ? STRIDE : n;
   
-  const int top = (int) n/veclen;
+  const int top = (int) ((R_xlen_t)n/veclen);
+  const int rem = (int) (n - (R_xlen_t)veclen*top);
   
   FASTRAND_GEN_NTHREADS(nthreads);
   
@@ -51,19 +52,18 @@ extern "C" SEXP R_fast_runif(SEXP n1_, SEXP n2_, SEXP min_, SEXP max_, SEXP seed
   
   thrust::device_vector<flouble> vec(veclen);
   
-  for (int i=0; i<((int) n/veclen); i++)
+  for (int i=0; i<top; i++)
   {
     UNIF_SETTINGS t(seed+i, min, max);
     thrust::transform(THRUST_IT(0), THRUST_IT(veclen), vec.begin(), parallel_random_uniform(t));
-    thrust::copy(vec.begin(), vec.end(), REAL(x) + i*STRIDE);
+    thrust::copy(vec.begin(), vec.end(), REAL(x) + ((R_xlen_t)i*STRIDE));
   }
   
-  if (n-top > 0)
+  if (rem > 0)
   {
-    int rem = n - veclen*top;
     UNIF_SETTINGS t(seed+n/veclen, min, max);
     thrust::transform(THRUST_IT(0), THRUST_IT(rem), vec.begin(), parallel_random_uniform(t));
-    thrust::copy(vec.begin(), vec.begin() + rem, REAL(x) + (n-rem));
+    thrust::copy_n(vec.begin(), rem, REAL(x) + ((R_xlen_t)(n-rem)));
   }
   
   UNPROTECT(1);
