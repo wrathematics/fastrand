@@ -1,3 +1,6 @@
 language: R
 warnings_are_errors: true
 
+r_github_packages:
+  - wrathematics/float
+  
