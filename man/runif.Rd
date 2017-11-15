@@ -4,7 +4,8 @@
 \alias{runif}
 \title{runif}
 \usage{
-runif(n, min = 0, max = 1, seed = getseed(), nthreads = getnthreads())
+runif(n, min = 0, max = 1, seed = getseed(), nthreads = getnthreads(),
+  type = "double")
 }
 \arguments{
 \item{n}{The number of values to generate}
@@ -16,6 +17,8 @@ runif(n, min = 0, max = 1, seed = getseed(), nthreads = getnthreads())
 \item{nthreads}{An optional argument for specifying the number of threads
 (in the case of OpenMP or TBB backends) that the routine should (at most)
 use.  Does nothing with a CUDA backend.}
+
+\item{type}{'double' or 'float'}
 }
 \description{
 Generate from a uniform distribution in parallel.
@@ -27,3 +30,4 @@ number generation algorithm.
 \references{
 \url{https://thrust.github.io/doc/group__predefined__random.html}
 }
+

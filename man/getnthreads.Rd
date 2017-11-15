@@ -27,3 +27,4 @@ For any function taking \code{nthreads=} as an argument, the priority is
   Number of cores
 }
 }
+

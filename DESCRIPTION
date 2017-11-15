@@ -11,10 +11,12 @@ License: BSD 2-clause License + file LICENSE
 Copyright: See fastrand/inst/thrust_LICENSE for the files in src/thrust/.
 Depends:
     R (>= 3.1.0)
+Imports:
+    float (>= 0.1-0)
 SystemRequirements: C++11. GNU make. If building with CUDA backend, then
     Nvidia's CUDA toolkit (>= release 5.0) is required.
 ByteCompile: yes
 BugReports: https://github.com/wrathematics/fastrand/issues
 Authors@R: person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics@gmail.com")
 Maintainer: Drew Schmidt <wrathematics@gmail.com>
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1

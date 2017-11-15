@@ -5,6 +5,9 @@
 #include "backend.h"
 #include "Rdefs.h"
 
+#define TYPE_DOUBLE 0
+#define TYPE_FLOAT 1
+
 #define STRIDE 33554432 // 256 MiB
 
 #define THRUST_IT(n) thrust::counting_iterator<int>(n)

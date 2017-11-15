@@ -4,7 +4,8 @@
 \alias{rnorm}
 \title{rnorm}
 \usage{
-rnorm(n, mean = 0, sd = 1, seed = getseed(), nthreads = getnthreads())
+rnorm(n, mean = 0, sd = 1, seed = getseed(), nthreads = getnthreads(),
+  type = "double")
 }
 \arguments{
 \item{n}{The number of values to generate}
@@ -16,6 +17,8 @@ rnorm(n, mean = 0, sd = 1, seed = getseed(), nthreads = getnthreads())
 \item{nthreads}{An optional argument for specifying the number of threads
 (in the case of OpenMP or TBB backends) that the routine should (at most)
 use.  Does nothing with a CUDA backend.}
+
+\item{type}{'double' or 'float'}
 }
 \description{
 Generate from a normal distribution in parallel.
@@ -23,3 +26,4 @@ Generate from a normal distribution in parallel.
 \references{
 \url{https://thrust.github.io/doc/group__predefined__random.html}
 }
+

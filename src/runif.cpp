@@ -32,39 +32,59 @@ struct parallel_random_uniform : public thrust::unary_function<thrust::tuple<con
 
 
 
-extern "C" SEXP R_fast_runif(SEXP n1_, SEXP n2_, SEXP min_, SEXP max_, SEXP seed_, SEXP nthreads)
+template <typename T>
+static void fast_runif(const R_xlen_t n, const T min, const T max, const unsigned int seed, T *x)
 {
-  SEXP x;
-  const int32_t n1 = INT(n1_);
-  const int32_t n2 = INT(n2_);
-  const R_xlen_t n = (R_xlen_t)n1*n1 + n2;
-  const flouble min = (flouble) REAL(min_)[0];
-  const flouble max = (flouble) REAL(max_)[0];
-  const unsigned int seed = INTEGER(seed_)[0];
   const int veclen = STRIDE < n ? STRIDE : n;
-  
   const int top = (int) ((R_xlen_t)n/veclen);
   const int rem = (int) (n - (R_xlen_t)veclen*top);
   
-  FASTRAND_GEN_NTHREADS(nthreads);
-  
-  PROTECT(x = allocVector(REALSXP, n));
-  
-  thrust::device_vector<flouble> vec(veclen);
+  thrust::device_vector<T> vec(veclen);
   
   for (int i=0; i<top; i++)
   {
     UNIF_SETTINGS t(seed+i, min, max);
     thrust::transform(THRUST_IT(0), THRUST_IT(veclen), vec.begin(), parallel_random_uniform(t));
-    thrust::copy(vec.begin(), vec.end(), REAL(x) + ((R_xlen_t)i*STRIDE));
+    thrust::copy(vec.begin(), vec.end(), x + ((R_xlen_t)i*STRIDE));
   }
   
   if (rem > 0)
   {
     UNIF_SETTINGS t(seed+n/veclen, min, max);
     thrust::transform(THRUST_IT(0), THRUST_IT(rem), vec.begin(), parallel_random_uniform(t));
-    thrust::copy_n(vec.begin(), rem, REAL(x) + ((R_xlen_t)(n-rem)));
+    thrust::copy_n(vec.begin(), rem, x + ((R_xlen_t)(n-rem)));
   }
+}
+
+
+
+extern "C" SEXP R_fast_runif(SEXP n1_, SEXP n2_, SEXP min_, SEXP max_, SEXP seed_, SEXP nthreads, SEXP type_)
+{
+  SEXP x;
+  const int32_t n1 = INT(n1_);
+  const int32_t n2 = INT(n2_);
+  const R_xlen_t n = (R_xlen_t)n1*n1 + n2;
+  
+  const unsigned int seed = INTEGER(seed_)[0];
+  const int type = INT(type_);
+  
+  const flouble min = (flouble) REAL(min_)[0];
+  const flouble max = (flouble) REAL(max_)[0];
+  
+  FASTRAND_GEN_NTHREADS(nthreads);
+  
+  if (type == TYPE_DOUBLE)
+  {
+    PROTECT(x = allocVector(REALSXP, n));
+    fast_runif(n, min, max, seed, REAL(x));
+  }
+  else if (type == TYPE_FLOAT)
+  {
+    PROTECT(x = allocVector(INTSXP, n));
+    fast_runif(n, (float)min, (float)max, seed, FLOAT(x));
+  }
+  else
+    error("impossible type\n");
   
   UNPROTECT(1);
   return x;

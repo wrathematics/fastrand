@@ -8,5 +8,7 @@
 #define INT(x) INTEGER(x)[0]
 #define DBL(x) REAL(x)[0]
 
+#define FLOAT(x) ((float*) INTEGER(x))
+
 
 #endif
