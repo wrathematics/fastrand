@@ -1,7 +1,7 @@
 CXX_STD = CXX11
 
 PKG_CPPFLAGS = @FASTRAND_CPPFLAGS@
-PKG_CXXFLAGS = -I. @FASTRAND_CXXFLAGS@
+PKG_CXXFLAGS = @FASTRAND_CXXFLAGS@
 PKG_LIBS = @FASTRAND_LDFLAGS@
 
 OBJECTS = backend.o fastrand_native.o getseed.o rnorm.o runif.o threads.o
