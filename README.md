@@ -8,6 +8,8 @@
 
 Fast uniform and gaussian (normal) random number generation.  The package can be built to support a threaded backend via OpenMP or Intel Thread Building Blocks (TBB), as well as a GPU backend via NVIDIA's CUDA.  The package is particularly useful for generating very large vectors for testing numerical algorithms.
 
+The quality of the random numbers is not as good as base R's.  But they are generated much more quickly, for a quasi performance-vs-accuracy tradeoff.
+
 
 
 ## Installation
@@ -26,7 +28,6 @@ devtools::install_github("wrathematics/fastrand")
 ghit::install_github("wrathematics/fastrand")
 remotes::install_github("wrathematics/fastrand")
 ```
-
 
 By default, this will select an OpenMP backend.  For Linux and Mac, to build with the GPU backend, you might do something like this:
 
