@@ -35,3 +35,29 @@ R CMD INSTALL fastrand/ --configure-args="--with-backend=CUDA --with-cuda-home=/
 ```
 
 For Windows, if you want to use the GPU backend, you will have to edit `fastrand/src/Makevars.win` appropriately.
+
+
+
+## Package Use and Benchmarks
+
+```r
+n = 1e9
+memuse::mu(n*8) # double precision size
+## 7.451 GiB
+memuse::mu(n*4) # single precision size
+## 3.725 GiB
+
+# warm ups
+invisible(replicate(10, stats::rnorm(5)))
+invisible(replicate(10, fastrand::rnorm(5)))
+
+system.time(stats::rnorm(n))
+##    user  system elapsed 
+##  53.104   1.072  54.182
+
+invisible(gc())
+
+system.time(fastrand::rnorm(n, type="float"))
+##    user  system elapsed 
+## 118.104   0.432  32.947 
+```
