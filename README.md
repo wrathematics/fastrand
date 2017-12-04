@@ -62,3 +62,5 @@ system.time(fastrand::rnorm(n, type="float"))
 ##    user  system elapsed 
 ## 118.104   0.432  32.947 
 ```
+
+There are other benchmarks located in the `inst/benchmarks` subtree of the package source.
