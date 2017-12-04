@@ -11,9 +11,9 @@ License: BSD 2-clause License + file LICENSE
 Depends:
     R (>= 3.1.0)
 Imports:
-    float (>= 0.1-0)
+    float (>= 0.1-2)
 LinkingTo:
-    float (>= 0.1-0),
+    float (>= 0.1-2),
     thrust (>= 1.8.2)
 SystemRequirements: C++11. GNU make. If building with CUDA backend, then
     Nvidia's CUDA toolkit (>= release 5.0) is required.
