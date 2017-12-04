@@ -8,7 +8,6 @@ Description: Fast uniform and gaussian (normal) random number generation. The
     'GPU' backend via 'NVIDIA''s 'CUDA'.  The package is particularly useful for
     generating very large vectors for testing numerical algorithms.
 License: BSD 2-clause License + file LICENSE
-Copyright: See fastrand/inst/thrust_LICENSE for the files in src/thrust/.
 Depends:
     R (>= 3.1.0)
 Imports:
