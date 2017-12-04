@@ -13,7 +13,7 @@ extern "C" SEXP R_get_backend()
 #elif FASTRAND_CUDA
   SET_STRING_ELT(backend, 0, mkChar("cuda"));
 #else
-  SET_STRING_ELT(backend, 0, mkChar("unknown"));
+  error("unknown backend (how is this even possible?\n") //SET_STRING_ELT(backend, 0, mkChar("unknown"));
 #endif
   
   UNPROTECT(1);

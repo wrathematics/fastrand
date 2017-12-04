@@ -3,6 +3,7 @@
 export(getnthreads)
 export(rnorm)
 export(runif)
+export(thrust.backend)
 importFrom(float,float32)
 useDynLib(fastrand,R_fast_rnorm)
 useDynLib(fastrand,R_fast_runif)
