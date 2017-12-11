@@ -1,10 +1,14 @@
 CXX_STD = CXX11
 
+SLAPACK_LIBS = `${R_HOME}/bin/Rscript -e "float:::ldflags()"`
+
 PKG_CPPFLAGS = @FASTRAND_CPPFLAGS@
 PKG_CXXFLAGS = @FASTRAND_CXXFLAGS@
-PKG_LIBS = @FASTRAND_LDFLAGS@
+PKG_LIBS = @FASTRAND_LDFLAGS@ $(SLAPACK_LIBS)
 
-OBJECTS = backend.o fastrand_native.o getseed.o rnorm.o runif.o threads.o
+CXX_OBJS = backend.o rnorm.o runif.o setnan.o threads.o
+C_OBJS = fastrand_native.o getseed.o
+OBJECTS = $(CXX_OBJS) $(C_OBJS)
 
 all: $(SHLIB)
 

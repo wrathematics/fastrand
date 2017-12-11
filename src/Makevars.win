@@ -1,10 +1,14 @@
 CXX_STD = CXX11
 
+SLAPACK_LIBS = `${R_HOME}/bin/Rscript -e "float:::ldflags()"`
+
 PKG_CPPFLAGS = -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_OMP $(SHLIB_OPENMP_CFLAGS)
 PKG_CXXFLAGS = -I. $(SHLIB_OPENMP_CXXFLAGS)
-PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
+PKG_LIBS = $(SHLIB_OPENMP_CFLAGS) $(SLAPACK_LIBS)
 
-OBJECTS = backend.o fastrand_native.o getseed.o rnorm.o runif.o threads.o
+CXX_SOURCES = $(wildcard *.cpp)
+C_SOURCES = $(wildcard *.c)
+OBJECTS = $(C_SOURCES:.c=.o) $(CXX_SOURCES:.cpp=.o)
 
 all: $(SHLIB)
 
