@@ -30,7 +30,14 @@ runif <- function(n, min=0, max=1, seed=getseed(), nthreads=getnthreads(), type=
   
   n1 = floor(sqrt(n))
   n2 = n - n1*n1
-  ret = .Call(R_fast_runif, as.integer(n1), as.integer(n2), as.double(min), as.double(max), as.integer(seed), as.integer(nthreads), type)
+  
+  if (min > max || is.badval(min) || is.badval(max))
+  {
+    warning("NAs produced")
+    ret = setnan(n1, n2, type)
+  }
+  else
+    ret = .Call(R_fast_runif, as.integer(n1), as.integer(n2), as.double(min), as.double(max), as.integer(seed), as.integer(nthreads), type)
   
   if (type == TYPE_DOUBLE)
     ret

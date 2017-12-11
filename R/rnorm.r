@@ -26,7 +26,14 @@ rnorm <- function(n, mean=0, sd=1, seed=getseed(), nthreads=getnthreads(), type=
   
   n1 = floor(sqrt(n))
   n2 = n - n1*n1
-  ret = .Call(R_fast_rnorm, as.integer(n1), as.integer(n2), as.double(mean), as.double(sd), as.integer(seed), as.integer(nthreads), type)
+  
+  if (sd < 0 || is.badval(mean) || is.badval(sd))
+  {
+    warning("NAs produced")
+    ret = setnan(n1, n2, type)
+  }
+  else
+    ret = .Call(R_fast_rnorm, as.integer(n1), as.integer(n2), as.double(mean), as.double(sd), as.integer(seed), as.integer(nthreads), type)
   
   if (type == TYPE_DOUBLE)
     ret

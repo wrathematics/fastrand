@@ -7,7 +7,7 @@
 #' testing numerical algorithms.
 #' 
 #' @useDynLib fastrand R_getseed R_get_backend R_get_num_threads R_fast_runif
-#'   R_fast_rnorm
+#'   R_fast_rnorm R_fastrand_setnan
 #'
 #' @importFrom float float32
 #' 
